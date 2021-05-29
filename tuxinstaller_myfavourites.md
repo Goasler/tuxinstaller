@@ -15,9 +15,9 @@ All in one media program
 ```gimp```  
 Paint.net alternative in Linux
 ```whatsapp-desktop```  
-self explaining...
-```spotify-client```  
-self explaining  
+self explaining...  
+```spotify-client```    
+self explaining    
 
 ## Packages that I would like to have removed
 
@@ -27,6 +27,6 @@ self explaining
 Wine or mono allows Ramsomeware to work on Linux!    
 Check out https://www.youtube.com/watch?v=TErrIvyj_lU     
 ```pix```  
-I dont need it 
+I dont need it   
 ```celluloid```  
 Replaced with vlc  
