@@ -10,7 +10,7 @@ Please consider:
   
  
 ## Edit the Config file
-Write in each new line the exact name of a package that you wanna install or remove.
+Write in each new line the exact name of a package that you want to install or remove.
 ```
 cd ~/.bin/
 nano tuxinstaller_install.conf
