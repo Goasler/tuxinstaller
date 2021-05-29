@@ -12,13 +12,11 @@ Please consider:
 ## Edit the Config file
 Write in each new line the exact name of a package that you want to install or remove.
 ```
-cd ~/.bin/
 nano tuxinstaller_install.conf
 nano tuxinstaller_remove.conf
 ```
 or if you prefer vi
 ```
-cd ~/.bin/
 vi tuxinstaller_install.conf
 vi tuxinstaller_remove.conf
 ```
