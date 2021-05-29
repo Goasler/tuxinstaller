@@ -1,0 +1,114 @@
+#!/bin/bash
+
+# -= APP INFO =-
+# Name....: tuxinstaller
+# Version.: v1.0
+# Author..: Goasler
+
+##Disclaimer
+# These scripts come without warranty of any kind. Use them at your own risk.
+# I assume no liability for any sort of damages using my scripts may cause.
+
+
+
+
+# Empty given values
+if [ -n $1 ]; then
+set -- ""
+fi
+
+
+# Function: check if package is installed
+function installpackage () {
+if [ $(dpkg-query -W -f='${Status}' $1 2>/dev/null | grep -c "ok installed") -eq 0 ];
+then
+        #package is not installed
+	printf "[    ] Installing $1 ...\n"
+	package=$1
+	if [ -x "$(command -v apt-get)" ]; then sudo apt-get install -y $package &>/dev/null
+	elif [ -x "$(command -v dnf)" ];     then sudo dnf install -y $package &>/dev/null
+	elif [ -x "$(command -v zypper)" ];  then sudo zypper install -y $package &>/dev/null
+	elif [ -x "$(command -v pacman)" ]; then pacman -S $package &>/dev/null
+	else printf "No package manager found! Please manually install: $package \n">&2; fi
+	# CREDIT: https://unix.stackexchange.com/a/571192
+	tput cuu1
+	printf "[done] $1 is now installed.\n"
+	sleep 2
+else
+	printf "[    ] Check Package $1 ..."
+	sleep 1
+	printf "\n"
+	tput cuu1
+	printf "[done] $1 is already installed.\n"
+	sleep 0
+fi
+}
+
+function rmpackage () {
+if [ $(dpkg-query -W -f='${Status}' $1 2>/dev/null | grep -c "ok installed") -eq 0 ];
+then
+        #package is not installed
+	printf "[done] $1 is not installed.\n"
+	sleep 0.5
+else
+        printf "[    ] Check Package $1 ..."
+	package=$1
+        if [ -x "$(command -v apt-get)" ]; then sudo apt-get purge $package &>/dev/null
+        elif [ -x "$(command -v dnf)" ];     then sudo dnf remove $package &>/dev/null
+        elif [ -x "$(command -v zypper)" ];  then sudo zypper remove $package &>/dev/null
+        elif [ -x "$(command -v pacman)" ]; then pacman -R $package &>/dev/null
+        else printf "No package manager found! Please manually install: $package\n">&2; fi
+        # CREDIT: https://unix.stackexchange.com/a/571192
+        printf "\n"
+        tput cuu1
+        printf "[done] $1 is now removed.\n"
+        sleep 0
+fi
+}
+
+
+
+
+# STAGE 1 - install packages
+printf "Installing useful Software Packages:\n"
+printf "=====================================\n"
+sleep 2
+while read -ra line;
+do
+    for word in "${line[@]}";
+    do
+        installpackage $word;
+    done;
+done < tuxinstaller_install.conf
+
+# STAGE 2 - Remove packages
+printf "\n"
+printf "Removing useless default Packages:\n"
+printf "===================================\n"
+while read -ra line;
+do
+    for word in "${line[@]}";
+    do
+        rmpackage $word;
+    done;
+done < tuxinstaller_remove.conf
+
+
+# STAGE 3 - Low CPU Optimization for YouTube
+printf "\n"
+printf "Low CPU Performance?\n"
+printf "(y)es/(n)o: "
+read -n 1 CPU
+case "$CPU" in
+	y|Y ) printf "\n" && printf "\n"
+	printf "If you'd plan to watch Youtube:"
+	printf "Install Chrome Extension 'enhanced-h264ify' is strongly recommended.\n"
+	chromium -url https://chrome.google.com/webstore/detail/enhanced-h264ify/omkfmpieigblcllmkgbflkikinpkodlk/related?hl=de &>/dev/null
+	printf "Options 1, 3, 4, 5 should be enabled in the addon, for less CPU Usage.\n"
+	;;
+	* ) printf "\n"
+	exit ;;
+esac
+printf "\n"
+exit
+
