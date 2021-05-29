@@ -13,7 +13,7 @@ The better browser
 ```vlc```  
 All in one media program  
 ```gimp```  
-Paint.net alternative in Linux
+Paint.net alternative in Linux  
 ```whatsapp-desktop```  
 self explaining...  
 ```spotify-client```    
